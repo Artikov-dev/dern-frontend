@@ -46,7 +46,7 @@ function App() {
       disableTransitionOnChange
     >
       <AuthProvider>
-        <Router basename={import.meta.env.VITE_BASE_URL || "/"}>
+        <Router basename="/dern-frontend">
           <Routes>
             {/* Landing page */}
             <Route path="/" element={<Landing />} />

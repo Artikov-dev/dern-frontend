@@ -17,13 +17,18 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { ArrowLeft, Clock, User, Share, Link as LinkIcon } from "lucide-react";
 import api from "@/lib/api";
 
+interface Author {
+  username: string;
+  email: string;
+}
+
 interface Article {
   _id: string;
   title: string;
   content: string;
   category: string;
   tags: string[];
-  author: { username: string; email: string };
+  author?: Author; // Make author optional
   createdAt: string;
   updatedAt: string;
   views: number;
@@ -44,6 +49,9 @@ export function ArticleDetails() {
       try {
         setLoading(true);
         const response = await api.get(`/knowledge-base/${id}`);
+        if (!response.data?.article) {
+          throw new Error("Article not found");
+        }
         setArticle(response.data.article);
         setError("");
       } catch (error: any) {
@@ -63,7 +71,7 @@ export function ArticleDetails() {
     if (navigator.share) {
       navigator
         .share({
-          title: article?.title,
+          title: article?.title || "Article",
           url: window.location.href,
         })
         .catch(() => {
@@ -173,7 +181,7 @@ export function ArticleDetails() {
                   <div className="flex items-center gap-x-4 text-sm text-muted-foreground">
                     <div className="flex items-center gap-x-1">
                       <User className="h-4 w-4" />
-                      <span>{article.author.username}</span>
+                      <span>{article.author?.username || "Unknown Author"}</span>
                     </div>
                     <div className="flex items-center gap-x-1">
                       <Clock className="h-4 w-4" />
@@ -202,7 +210,7 @@ export function ArticleDetails() {
               <div className="prose prose-gray dark:prose-invert max-w-none">
                 <ReactMarkdown>{article.content}</ReactMarkdown>
               </div>
-              {article.relatedArticles.length > 0 && (
+              {article.relatedArticles?.length > 0 && (
                 <div className="mt-8">
                   <h3 className="text-lg font-semibold mb-4">
                     Related Articles
@@ -256,7 +264,7 @@ export function ArticleDetails() {
             </CardHeader>
             <CardContent>
               <div className="flex flex-wrap gap-2">
-                {article.tags.map((tag, index) => (
+                {article.tags?.map((tag, index) => (
                   <Badge key={index} variant="secondary" className="text-xs">
                     {tag}
                   </Badge>
