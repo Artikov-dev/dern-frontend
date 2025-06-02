@@ -313,7 +313,7 @@ export function SupportRequestDetails() {
                   <div>
                     <h4 className="font-medium mb-1">Category</h4>
                     <p className="text-sm text-muted-foreground capitalize">
-                      {request.category.replace("-", " ")}
+                      {request.category ? request.category.replace("-", " ") : "N/A"}
                     </p>
                   </div>
                   <div>
@@ -372,18 +372,16 @@ export function SupportRequestDetails() {
                   messages.map((message) => (
                     <div
                       key={message._id}
-                      className={`flex ${
-                        message.sender._id === user?.id
-                          ? "justify-end"
-                          : "justify-start"
-                      }`}
+                      className={`flex ${message.sender._id === user?.id
+                        ? "justify-end"
+                        : "justify-start"
+                        }`}
                     >
                       <div
-                        className={`max-w-xs lg:max-w-md px-4 py-2 rounded-lg ${
-                          message.sender._id === user?.id
-                            ? "bg-primary text-primary-foreground"
-                            : "bg-muted text-muted-foreground"
-                        }`}
+                        className={`max-w-xs lg:max-w-md px-4 py-2 rounded-lg ${message.sender._id === user?.id
+                          ? "bg-primary text-primary-foreground"
+                          : "bg-muted text-muted-foreground"
+                          }`}
                       >
                         <div className="flex items-center space-x-2 mb-1">
                           <User className="h-3 w-3" />
@@ -439,11 +437,10 @@ export function SupportRequestDetails() {
                             key={star}
                             type="button"
                             onClick={() => setRating(star)}
-                            className={`p-1 ${
-                              star <= rating
-                                ? "text-yellow-500"
-                                : "text-gray-300"
-                            }`}
+                            className={`p-1 ${star <= rating
+                              ? "text-yellow-500"
+                              : "text-gray-300"
+                              }`}
                           >
                             <Star className="h-6 w-6 fill-current" />
                           </button>
@@ -622,11 +619,10 @@ export function SupportRequestDetails() {
                     {[1, 2, 3, 4, 5].map((star) => (
                       <Star
                         key={star}
-                        className={`h-4 w-4 ${
-                          star <= request.customerSatisfaction!.rating
-                            ? "text-yellow-500 fill-current"
-                            : "text-gray-300"
-                        }`}
+                        className={`h-4 w-4 ${star <= request.customerSatisfaction!.rating
+                          ? "text-yellow-500 fill-current"
+                          : "text-gray-300"
+                          }`}
                       />
                     ))}
                     <span className="ml-2 text-sm font-medium">

@@ -22,7 +22,7 @@ export interface SupportRequest {
   requestId: string;
   title: string;
   description: string;
-  category: string;
+  category?: string; // Make optional
   priority: "low" | "medium" | "high" | "urgent";
   status: "open" | "in-progress" | "pending-customer" | "resolved" | "closed";
   customer: User;
